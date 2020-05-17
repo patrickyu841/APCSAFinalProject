@@ -1,5 +1,7 @@
 package graphics;
 import java.util.ArrayList;
+import java.util.Random;
+
 import cardgames.BlackJack;
 import cards.Card;
 import cards.CardStack;
@@ -87,6 +89,11 @@ public class DrawingSurface extends PApplet {
 			break; 
 		}
 		
+		//player has chosen to hit
+		if (hit) {//generate random cards not working, draws an infinite stream of random cards
+			
+		}
+		
 		//player exits the game
 		if (b.getClickExit()) {
 			background(255); 
@@ -126,6 +133,11 @@ public class DrawingSurface extends PApplet {
 		} else if (gm.clickRect(this, 460, 300, 120, 120)) {
 			players = 4; 
 		} 
+		
+		//sees if the player has chosen to hit
+		if (b.clickRect(this, 700, 550, 32 + 6, 45)) {
+			hit = true;
+		}
 	}
 
 }

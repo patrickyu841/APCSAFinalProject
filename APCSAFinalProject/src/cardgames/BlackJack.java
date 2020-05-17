@@ -2,6 +2,8 @@ package cardgames;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
+
 import cards.*;
 import graphics.PlayingBoard;
 import processing.core.PApplet;
@@ -23,24 +25,39 @@ public class BlackJack implements PlayingBoard {
 	private int numPlayers;
 	private boolean clickExit;
 	private ArrayList<CardStack> playerStacks; 
+	private ArrayList<Card> playerCards;
+
 //	private boolean hit;
 
 	/**
 	 * no args constructor for blackjack
 	 */
 	public BlackJack() {
-		playerStacks = new ArrayList<CardStack>(); 
-		numPlayers = playerStacks.size(); 
+		numPlayers = 0;
 		
-	}
-	
-	public void assignCards() {
-//		int random = (int) ((Math.random() * 2) + 2); 
+		//generate random cards not working, draws an infinite stream of random cards
+		playerStacks = new ArrayList<CardStack>(); 
 		for (int i = 0; i < numPlayers; i++) {
 			playerStacks.add(new CardStack());
 		}
+	
+		
+		playerCards = new ArrayList<Card>();
+		Random rand = new Random();
+		int randomSuit = rand.nextInt(4);
+		int randomVal = rand.nextInt(14);
+		Card blind = new Card(randomSuit, randomVal);
+		blind.setFace(false);
+		int randomSuit2 = rand.nextInt(4);
+		int randomVal2 = rand.nextInt(14);
+		Card secondCard = new Card(randomSuit2, randomVal2);
+		playerCards.add(blind);
+		playerCards.add(secondCard);
+	}
+	
+	public void assignCards() {
 		for (CardStack stack : playerStacks) {
-			stack.getRandomHand(3);
+			stack.addCard(stack.generateRandom());
 		}
 	}
 	
@@ -58,6 +75,10 @@ public class BlackJack implements PlayingBoard {
 
 	public boolean getClickExit() {
 		return clickExit;
+	}
+	
+	public ArrayList<Card> getPlayerHand() {
+		return playerCards; 
 	}
 
 	/**
@@ -112,14 +133,20 @@ public class BlackJack implements PlayingBoard {
 		// hit button
 		marker.stroke(0);
 		marker.fill(255);
-		marker.rect(370, 370, 32, 45);
-		marker.rect(372, 370, 32, 45);
-		marker.rect(374, 370, 32, 45);
-		marker.rect(376, 370, 32, 45);
+		marker.rect(700, 550, 32, 45);
+		marker.rect(702, 550, 32, 45);
+		marker.rect(704, 550, 32, 45);
+		marker.rect(706, 550, 32, 45);
 		
-		//draws each card
-		for (int i = 0; i < numPlayers; i++) {
-			playerStacks.get(i).draw(marker, 0, 300);
+		//draws opponents' hand
+		
+		
+		//draws player hand
+		marker.textSize(32);
+		marker.fill(255);
+		marker.text("Your Hand: ", 10, 550);
+		for (int i = 0; i < playerCards.size(); i++) {
+			playerCards.get(i).draw(marker, (i * 40) + 300, 600);
 		}
 	}
 	

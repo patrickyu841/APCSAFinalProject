@@ -143,13 +143,11 @@ public class CardStack { // Tested; methods all work! (05/10/2020)
 
 	}
 	
-	public void getRandomHand(int random) {
-		for (int i = 0; i < random; i++) {
-			int randomSuit = (int) (Math.random() * 4);
-			int randomVal = (int) ((Math.random() * 13) + 1);
-			Card randomCard = new Card(randomSuit, randomVal);
-			cards.add(randomCard);
-		}
+	public Card generateRandom() {
+		Random rand = new Random();
+		int randomSuit = rand.nextInt(4);
+		int randomVal = rand.nextInt(14);
+		return new Card(randomSuit, randomVal);
 	}
 	
 	/**
