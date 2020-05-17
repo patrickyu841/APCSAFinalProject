@@ -72,8 +72,7 @@ public class DrawingSurface extends PApplet {
 		//draws the playing board based on the number of players
 		switch (players) {
 		case 2: 
-			b.setNumPlayers(2);
-			
+			b.setNumPlayers(2);	
 			b.draw(this);
 			b.reveal(this, reveal);
 			if (reveal) {

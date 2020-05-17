@@ -96,34 +96,65 @@ public class BlackJack implements PlayingBoard {
 		playerCards.add(blind4);
 	}
 	
+	/**
+	 * basic getter for whether the player has hit
+	 * @return the boolean for if the player has hit
+	 */
 	public boolean getHit() {
 		return hit;
 	}
 	
+	/**
+	 * basic setter for the boolean that sees if the player has chosen to hit
+	 */
 	public void setHit (boolean test) {
 		hit = test;
 	}
 	
+	/**
+	 * basic setter for the number of players
+	 * @return the number of players
+	 */
 	public void setNumPlayers(int num) {
 		numPlayers = num; 
 	}
 	
+	/**
+	 * basic getter for the number of players
+	 * @return the number of players
+	 */
 	public int getNumPlayers() {
 		return numPlayers; 
 	}
 	
+	/**
+	 * basic setter for the boolean that dictates whether the player exits
+	 * @param test the boolean that indicates if the player has exited
+	 */
 	public void setClickExit(boolean test) {
 		clickExit = test;
 	}
-
+	
+	/**
+	 * basic getter for the boolean that sees whether the player has exited
+	 * @return whether the player has exited
+	 */
 	public boolean getClickExit() {
 		return clickExit;
 	}
 	
+	/**
+	 * basic getter for the player's hand
+	 * @return an arraylist of cards that the player has
+	 */
 	public ArrayList<Card> getPlayerHand() {
 		return playerCards; 
 	}
 	
+	/**
+	 * generates a random card
+	 * @return a random card 
+	 */
 	public Card generateRandom() {
 		Random rand = new Random();
 		int randomSuit = rand.nextInt(4);
@@ -131,10 +162,10 @@ public class BlackJack implements PlayingBoard {
 		return new Card(randomSuit, randomVal);
 	} 
 	
-	public void assignCards() {
-		
-	}
-	
+	/**
+	 * adds a new face up card to the player's hand
+	 * @param marker the PApplet on which the message is drawn
+	 */
 	public void hit(PApplet marker) {
 		for (int i = 2; i < playerCards.size(); i++) {
 			if (playerCards.get(i).clickedCard(marker)) {
@@ -160,7 +191,12 @@ public class BlackJack implements PlayingBoard {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * checks the winner based on the value of the player's hand. If the value is over 21, there is no way for the player to win
+	 * if the player either has 21 or has the closest value to 21, then he or she wins
+	 * @param marker the PApplet on which the message is drawn
+	 */
 	public void checkWinner(PApplet marker) {
 		int playerValue = getSum();
 		int difference = 21 - playerValue;
@@ -190,7 +226,11 @@ public class BlackJack implements PlayingBoard {
 			}
 		}
 	}
-
+	
+	/**
+	 * Draws a message either congrulating the victor or informing the player of his or her loss
+	 * @param marker the PApplet on which the message is drawn
+	 */
 	public void declareWinner(PApplet marker) {
 		if (winner) {
 			marker.text("You won", 400, 400);
@@ -199,6 +239,11 @@ public class BlackJack implements PlayingBoard {
 		}
 	}
 	
+	/**
+	 * Reveals the player's blind card and reveals the scores of the other opponents
+	 * @param marker the PApplet on which the message is drawn
+	 * @param test boolean to see if it is time to reveal
+	 */
 	public void reveal(PApplet marker, boolean test) {
 		if (test) {
 			playerCards.get(0).setFace(true);
@@ -225,6 +270,10 @@ public class BlackJack implements PlayingBoard {
 		}
 	}
 	
+	/**
+	 * sums up the player's total score by recognising the value of each of his or her cards
+	 * @return the value of his hand
+	 */
 	public int getSum() {
 		int result = 0;
 		for (int i = 0; i < playerCards.size(); i++) {
@@ -235,6 +284,9 @@ public class BlackJack implements PlayingBoard {
 		return result; 
 	}
 	
+	/**
+	 * draws the playing board, the players hand, and all necessary buttons
+	 */
 	public void draw(PApplet marker) {
 		// basic background
 		marker.background(53, 101, 77);
