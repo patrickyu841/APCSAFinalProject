@@ -117,6 +117,24 @@ public class Card { // Tested; methods all work! (05/10/2020)
 	public void setFace(boolean test) {
 		faceUp = test; 
 	}
+	
+	/**
+	 * 
+	 * @param marker - PApplet upon which this boolean sees if the mouse is clicked
+	 * @param x      - the x coordinate of the rectangle
+	 * @param y      - the y coordinate of the rectangle
+	 * @param width  - the horizontal width of the rectangle
+	 * @param height - the vertical height of the rectangle
+	 * @return - whether or not the mouse has clicked on the rectangle
+	 */
+	public boolean clickedCard(PApplet marker) {
+		if (marker.mouseX >= x && marker.mouseX <= x + 32 && marker.mouseY >= y && marker.mouseY <= y + 45) {
+			return true;
+		} else {
+
+			return false;
+		}
+	}
 
 	/**
 	 * draws the card based on its suit and number

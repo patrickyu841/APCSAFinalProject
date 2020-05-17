@@ -22,18 +22,23 @@ public class BlackJack implements PlayingBoard {
 //	private Player winner = null;
 //	private int numRounds = 1;
 //	private int numTurns = 1;
-	private int numPlayers;
-	private boolean clickExit;
+	private int numPlayers, random1, random2, random3, random4;
+	private boolean clickExit, winner;
 	private ArrayList<CardStack> playerStacks; 
 	private ArrayList<Card> playerCards;
-
-//	private boolean hit;
+	private boolean hit;
 
 	/**
 	 * no args constructor for blackjack
 	 */
 	public BlackJack() {
 		numPlayers = 0;
+		random1 = (int) ((Math.random() * 7) + 14);
+		random2 = (int) ((Math.random() * 7) + 14);
+		random3 = (int) ((Math.random() * 7) + 14);
+		random4 = (int) ((Math.random() * 7) + 14);
+		
+		hit = false;
 		
 		//generate random cards not working, draws an infinite stream of random cards
 		playerStacks = new ArrayList<CardStack>(); 
@@ -41,24 +46,62 @@ public class BlackJack implements PlayingBoard {
 			playerStacks.add(new CardStack());
 		}
 	
-		
+		//generates the first to cards for the player
 		playerCards = new ArrayList<Card>();
+		
 		Random rand = new Random();
 		int randomSuit = rand.nextInt(4);
-		int randomVal = rand.nextInt(14);
+		int randomVal = rand.nextInt(13);
+		if (randomVal == 0) {
+			randomVal = 1;
+		}
 		Card blind = new Card(randomSuit, randomVal);
 		blind.setFace(false);
+		
 		int randomSuit2 = rand.nextInt(4);
-		int randomVal2 = rand.nextInt(14);
+		int randomVal2 = rand.nextInt(13);
+		if (randomVal2 == 0) {
+			randomVal2 = 1;
+		}
 		Card secondCard = new Card(randomSuit2, randomVal2);
+		
+		int randomSuit3 = rand.nextInt(4);
+		int randomVal3 = rand.nextInt(13);
+		if (randomVal3 == 0) {
+			randomVal3 = 1;
+		}
+		Card blind2 = new Card(randomSuit3, randomVal3);
+		blind2.setFace(false);
+		
+		int randomSuit4 = rand.nextInt(4);
+		int randomVal4 = rand.nextInt(13);
+		if (randomVal4 == 0) {
+			randomVal4 = 1;
+		}
+		Card blind3 = new Card(randomSuit4, randomVal4);
+		blind3.setFace(false);
+		
+		int randomSuit5 = rand.nextInt(4);
+		int randomVal5 = rand.nextInt(13);
+		if (randomVal5 == 0) {
+			randomVal5 = 1;
+		}
+		Card blind4 = new Card(randomSuit5, randomVal5);
+		blind4.setFace(false);
+		
 		playerCards.add(blind);
 		playerCards.add(secondCard);
+		playerCards.add(blind2);
+		playerCards.add(blind3);
+		playerCards.add(blind4);
 	}
 	
-	public void assignCards() {
-		for (CardStack stack : playerStacks) {
-			stack.addCard(stack.generateRandom());
-		}
+	public boolean getHit() {
+		return hit;
+	}
+	
+	public void setHit (boolean test) {
+		hit = test;
 	}
 	
 	public void setNumPlayers(int num) {
@@ -80,6 +123,25 @@ public class BlackJack implements PlayingBoard {
 	public ArrayList<Card> getPlayerHand() {
 		return playerCards; 
 	}
+	
+	public Card generateRandom() {
+		Random rand = new Random();
+		int randomSuit = rand.nextInt(4);
+		int randomVal = rand.nextInt(14);
+		return new Card(randomSuit, randomVal);
+	} 
+	
+	public void assignCards() {
+		
+	}
+	
+	public void hit(PApplet marker) {
+		for (int i = 2; i < playerCards.size(); i++) {
+			if (playerCards.get(i).clickedCard(marker)) {
+				playerCards.get(i).setFace(true);
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -99,12 +161,79 @@ public class BlackJack implements PlayingBoard {
 		}
 	}
 
-	public void declareWinner() {
-
+	public void checkWinner(PApplet marker) {
+		int playerValue = getSum();
+		int difference = 21 - playerValue;
+		int lowest = difference;
+		
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		values.add(difference);
+		values.add(21 - random1);
+		values.add(21 - random2);
+		if (numPlayers == 3) {
+			values.add(21 - random3);
+		} else if (numPlayers == 4) {
+			values.add(21 - random3);
+			values.add(21 - random4);
+		}
+		
+		if (difference < 0) {
+			winner = false;
+		} else if (difference == 0) {
+			winner = true;
+		} else {
+			for (int i = 0; i < values.size(); i++) {
+				if (values.get(i) < lowest && values.get(i) >= 0) {
+					winner = false;
+				} else {
+					winner = true;
+				}
+			}
+		}
 	}
 
-	public void endGame() {
-		
+	public void declareWinner(PApplet marker) {
+		if (winner) {
+			marker.text("You won", 400, 400);
+		} else {
+			marker.text("You lost", 400, 400);
+		}
+	}
+	
+	public void reveal(PApplet marker, boolean test) {
+		if (test) {
+			playerCards.get(0).setFace(true);
+			//generates random values
+			if(numPlayers == 2) {
+				marker.fill(255);
+				marker.textSize(32);
+				marker.text(random1, 200, 300);
+				marker.text(random2, 600, 300);
+			} else if (numPlayers == 3) {
+				marker.fill(255);
+				marker.textSize(32);
+				marker.text(random1, 800 / 3, 300);
+				marker.text(random2, 400, 300);
+				marker.text(random3, 1600 / 3, 300);
+			} else if (numPlayers == 4) {
+				marker.fill(255);
+				marker.textSize(32);
+				marker.text(random1, 100, 300);
+				marker.text(random2, 300, 300);
+				marker.text(random3, 500, 300);
+				marker.text(random4, 700, 300);
+			}
+		}
+	}
+	
+	public int getSum() {
+		int result = 0;
+		for (int i = 0; i < playerCards.size(); i++) {
+			if (playerCards.get(i).getFace()) {
+				result += playerCards.get(i).getNum();
+			}
+		}
+		return result; 
 	}
 	
 	public void draw(PApplet marker) {
@@ -148,6 +277,15 @@ public class BlackJack implements PlayingBoard {
 		for (int i = 0; i < playerCards.size(); i++) {
 			playerCards.get(i).draw(marker, (i * 40) + 300, 600);
 		}
+		
+		//draws the reveal hand button
+		marker.stroke(255, 255, 255);
+		marker.noFill();
+		marker.rect(620, 650, 150, 30);
+		marker.fill(255);
+		marker.textSize(22);
+		marker.text("Reveal Hand", 630, 670);
+		
 	}
 	
 }

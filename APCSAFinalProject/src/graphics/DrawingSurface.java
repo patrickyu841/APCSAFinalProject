@@ -15,7 +15,7 @@ public class DrawingSurface extends PApplet {
 	
 	private GameMenu gm = new GameMenu();
 	private PlayerMenu pm = new PlayerMenu();
-	private boolean instructions, hostGame, hit;
+	private boolean instructions, hostGame, hitSecondCard, hitThirdCard, hitFourthCard, reveal;
 	private int countInstructions, countPlayGame; 
 	private BlackJack b;
 	private int players;
@@ -27,7 +27,6 @@ public class DrawingSurface extends PApplet {
 	public DrawingSurface() {
 		instructions = gm.getClickInstructions();
 		countInstructions = 0;
-		
 		hostGame = gm.getClickHost();	
 		countPlayGame = 0;
 		
@@ -74,24 +73,32 @@ public class DrawingSurface extends PApplet {
 		switch (players) {
 		case 2: 
 			b.setNumPlayers(2);
-			b.assignCards();
+			
 			b.draw(this);
+			b.reveal(this, reveal);
+			if (reveal) {
+				b.checkWinner(this);
+				b.declareWinner(this);
+			}
 			break; 
 		case 3: 
-			b.setNumPlayers(3);
-			b.assignCards();
+			b.setNumPlayers(3);		
 			b.draw(this);
+			b.reveal(this, reveal);
+			if (reveal) {
+				b.checkWinner(this);
+				b.declareWinner(this);
+			}
 			break; 
 		case 4: 
-			b.setNumPlayers(4);
-			b.assignCards();
+			b.setNumPlayers(4);			
 			b.draw(this);
+			b.reveal(this, reveal);
+			if (reveal) {
+				b.checkWinner(this);
+				b.declareWinner(this);
+			}
 			break; 
-		}
-		
-		//player has chosen to hit
-		if (hit) {//generate random cards not working, draws an infinite stream of random cards
-			
 		}
 		
 		//player exits the game
@@ -101,7 +108,19 @@ public class DrawingSurface extends PApplet {
 			text("You have left the game", 200, 400); 
 		}
 		
-		
+		//hits 
+		if (hitSecondCard) {
+			b.getPlayerHand().get(2).setFace(true);
+			b.getPlayerHand().get(2).draw(this, 380, 600);
+		}
+		if (hitThirdCard) {
+			b.getPlayerHand().get(3).setFace(true);
+			b.getPlayerHand().get(3).draw(this, 420, 600);
+		}
+		if (hitFourthCard) {
+			b.getPlayerHand().get(4).setFace(true);
+			b.getPlayerHand().get(4).draw(this, 460, 600);
+		}
 	}
 	
 	/**
@@ -135,8 +154,18 @@ public class DrawingSurface extends PApplet {
 		} 
 		
 		//sees if the player has chosen to hit
-		if (b.clickRect(this, 700, 550, 32 + 6, 45)) {
-			hit = true;
+		if(b.clickRect(this, 380, 600, 32, 45)) {
+			hitSecondCard = true;
+		}
+		if(b.clickRect(this, 420, 600, 32, 45)) {
+			hitThirdCard = true;
+		}
+		if(b.clickRect(this, 460, 600, 32, 45)) {
+			hitFourthCard = true;
+		}
+		//sees if the player has chosen to reveal his cards
+		if (b.clickRect(this, 620, 650, 150, 30)) {
+			reveal = true;
 		}
 	}
 
