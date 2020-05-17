@@ -164,7 +164,6 @@ public class BlackJack implements PlayingBoard {
 	public void checkWinner(PApplet marker) {
 		int playerValue = getSum();
 		int difference = 21 - playerValue;
-		int lowest = difference;
 		
 		ArrayList<Integer> values = new ArrayList<Integer>();
 		values.add(difference);
@@ -183,7 +182,7 @@ public class BlackJack implements PlayingBoard {
 			winner = true;
 		} else {
 			for (int i = 0; i < values.size(); i++) {
-				if (values.get(i) < lowest && values.get(i) >= 0) {
+				if (values.get(i) < difference && values.get(i) >= 0) {
 					winner = false;
 				} else {
 					winner = true;
