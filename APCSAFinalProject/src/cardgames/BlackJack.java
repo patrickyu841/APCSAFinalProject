@@ -256,9 +256,9 @@ public class BlackJack implements PlayingBoard {
 			} else if (numPlayers == 3) {
 				marker.fill(255);
 				marker.textSize(32);
-				marker.text(random1, 800 / 3, 300);
+				marker.text(random1, 200, 300);
 				marker.text(random2, 400, 300);
-				marker.text(random3, 1600 / 3, 300);
+				marker.text(random3, 600, 300);
 			} else if (numPlayers == 4) {
 				marker.fill(255);
 				marker.textSize(32);

@@ -97,7 +97,6 @@ public class DrawingSurface extends PApplet {
 				b.checkWinner(this);
 				b.declareWinner(this);
 			}
-			System.out.println(b.getSum());
 			break; 
 		}
 		
