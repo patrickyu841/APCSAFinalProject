@@ -232,12 +232,35 @@ public class BlackJack implements PlayingBoard {
 	 * @param marker the PApplet on which the message is drawn
 	 */
 	public void declareWinner(PApplet marker) {
+//		if (winner) {
+//			marker.text("You won", 400, 400);
+//		} else {
+//			marker.text("You lost", 400, 400);
+//		}
+		
+		//checks and declares winner
 		if (winner) {
-			marker.text("You won", 400, 400);
+			marker.textSize(50);
+			marker.fill(255, 0, 0);
+			marker.text("YOU HAVE WON", 220, 100);
+			
+			//exit game
+			marker.stroke(255);
+			marker.square(10, 10, 20);
+			marker.line(10, 10, 30, 30);
+			marker.line(10, 30, 30, 10);
 		} else {
-			marker.text("You lost", 400, 400);
+			marker.textSize(50);
+			marker.fill(255, 0, 0);
+			marker.text("YOU HAVE LOST", 220, 100);
+			
+			//exit game
+			marker.stroke(255);
+			marker.square(10, 10, 20);
+			marker.line(10, 10, 30, 30);
+			marker.line(10, 30, 30, 10);
 		}
-	}
+	} 
 	
 	/**
 	 * Reveals the player's blind card and reveals the scores of the other opponents
@@ -317,9 +340,6 @@ public class BlackJack implements PlayingBoard {
 		marker.rect(702, 550, 32, 45);
 		marker.rect(704, 550, 32, 45);
 		marker.rect(706, 550, 32, 45);
-		
-		//draws opponents' hand
-		
 		
 		//draws player hand
 		marker.textSize(32);
