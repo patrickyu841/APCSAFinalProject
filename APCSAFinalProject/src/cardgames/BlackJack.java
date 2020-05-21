@@ -17,15 +17,9 @@ import processing.core.PImage;
 
 public class BlackJack implements PlayingBoard {
 
-	
-	
-//	private Player winner = null;
-//	private int numRounds = 1;
-//	private int numTurns = 1;
-	private int numPlayers, random1, random2, random3, random4;
+	private int numPlayers, opp1Val, opp2Val, opp3Val, opp4Val;
 	private boolean clickExit, winner;
-	private ArrayList<CardStack> playerStacks; 
-	private ArrayList<Card> playerCards;
+	private ArrayList<Card> playerCards, opponent1, opponent2, opponent3, opponent4;
 	private boolean hit;
 
 	/**
@@ -33,20 +27,76 @@ public class BlackJack implements PlayingBoard {
 	 */
 	public BlackJack() {
 		numPlayers = 0;
-		random1 = (int) ((Math.random() * 7) + 14);
-		random2 = (int) ((Math.random() * 7) + 14);
-		random3 = (int) ((Math.random() * 7) + 14);
-		random4 = (int) ((Math.random() * 7) + 14);
-		
+
 		hit = false;
 		
-		//generate random cards not working, draws an infinite stream of random cards
-		playerStacks = new ArrayList<CardStack>(); 
-		for (int i = 0; i < numPlayers; i++) {
-			playerStacks.add(new CardStack());
+		//generates opponent cards
+		opponent1 = new ArrayList<Card>();
+		int randomSize1 = (int) ((Math.random() * 4) + 2);
+		for (int i = 0; i < randomSize1; i++) {
+			Random rand = new Random();
+			int randomSuit = rand.nextInt(4);
+			int randomVal = rand.nextInt(13);
+			if (randomVal == 0) {
+				randomVal = 1;
+			}
+			opponent1.add(new Card(randomSuit, randomVal));
 		}
+		opponent1.get(0).setFace(false);
+		for (int i = 0; i < opponent1.size(); i++) {
+			opp1Val += opponent1.get(i).getNum();
+		}
+		
+		opponent2 = new ArrayList<Card>();
+		int randomSize2 = (int) ((Math.random() * 4) + 2);
+		for (int i = 0; i < randomSize2; i++) {
+			Random rand = new Random();
+			int randomSuit = rand.nextInt(4);
+			int randomVal = rand.nextInt(13);
+			if (randomVal == 0) {
+				randomVal = 1;
+			}
+			opponent2.add(new Card(randomSuit, randomVal));
+		}
+		opponent2.get(0).setFace(false);
+		for (int i = 0; i < opponent2.size(); i++) {
+			opp2Val += opponent2.get(i).getNum();
+		}
+		
+		opponent3 = new ArrayList<Card>();
+		int randomSize3 = (int) ((Math.random() * 4) + 2);
+		for (int i = 0; i < randomSize3; i++) {
+			Random rand = new Random();
+			int randomSuit = rand.nextInt(4);
+			int randomVal = rand.nextInt(13);
+			if (randomVal == 0) {
+				randomVal = 1;
+			}
+			opponent3.add(new Card(randomSuit, randomVal));
+		}
+		opponent3.get(0).setFace(false);
+		for (int i = 0; i < opponent3.size(); i++) {
+			opp3Val += opponent3.get(i).getNum();
+		}
+		
+		opponent4 = new ArrayList<Card>();
+		int randomSize4 = (int) ((Math.random() * 3) + 3);
+		for (int i = 0; i < randomSize4; i++) {
+			Random rand = new Random();
+			int randomSuit = rand.nextInt(4);
+			int randomVal = rand.nextInt(13);
+			if (randomVal == 0) {
+				randomVal = 1;
+			}
+			opponent4.add(new Card(randomSuit, randomVal));
+		}
+		opponent4.get(0).setFace(false);
+		for (int i = 0; i < opponent4.size(); i++) {
+			opp4Val += opponent4.get(i).getNum();
+		}
+		
 	
-		//generates the first to cards for the player
+		//generates the cards for the player
 		playerCards = new ArrayList<Card>();
 		
 		Random rand = new Random();
@@ -198,18 +248,19 @@ public class BlackJack implements PlayingBoard {
 	 * @param marker the PApplet on which the message is drawn
 	 */
 	public void checkWinner(PApplet marker) {
-		int playerValue = getSum();
-		int difference = 21 - playerValue;
-		
 		ArrayList<Integer> values = new ArrayList<Integer>();
+		
+		int playerValue = getSum();
+		int difference = 21 - playerValue;	
 		values.add(difference);
-		values.add(21 - random1);
-		values.add(21 - random2);
+		
+		values.add(21 - opp1Val);
+		values.add(21 - opp2Val);
 		if (numPlayers == 3) {
-			values.add(21 - random3);
+			values.add(21 - opp3Val);
 		} else if (numPlayers == 4) {
-			values.add(21 - random3);
-			values.add(21 - random4);
+			values.add(21 - opp3Val);
+			values.add(21 - opp4Val);
 		}
 		
 		if (difference < 0) {
@@ -217,14 +268,14 @@ public class BlackJack implements PlayingBoard {
 		} else if (difference == 0) {
 			winner = true;
 		} else {
-			for (int i = 0; i < values.size(); i++) {
+			for (int i = 1; i < values.size(); i++) {
 				if (values.get(i) < difference && values.get(i) >= 0) {
 					winner = false;
 				} else {
 					winner = true;
 				}
 			}
-		}
+		}		
 	}
 	
 	/**
@@ -232,12 +283,6 @@ public class BlackJack implements PlayingBoard {
 	 * @param marker the PApplet on which the message is drawn
 	 */
 	public void declareWinner(PApplet marker) {
-//		if (winner) {
-//			marker.text("You won", 400, 400);
-//		} else {
-//			marker.text("You lost", 400, 400);
-//		}
-		
 		//checks and declares winner
 		if (winner) {
 			marker.textSize(50);
@@ -270,25 +315,33 @@ public class BlackJack implements PlayingBoard {
 	public void reveal(PApplet marker, boolean test) {
 		if (test) {
 			playerCards.get(0).setFace(true);
-			//generates random values
-			if(numPlayers == 2) {
+			if (numPlayers == 2) {
 				marker.fill(255);
 				marker.textSize(32);
-				marker.text(random1, 200, 300);
-				marker.text(random2, 600, 300);
-			} else if (numPlayers == 3) {
+				marker.text(opp1Val, 200, 300);
+				marker.text(opp2Val, 600, 300);
+				opponent1.get(0).setFace(true);
+				opponent2.get(0).setFace(true);
+			} else if (numPlayers == 3) { 
 				marker.fill(255);
 				marker.textSize(32);
-				marker.text(random1, 200, 300);
-				marker.text(random2, 400, 300);
-				marker.text(random3, 600, 300);
-			} else if (numPlayers == 4) {
+				marker.text(opp1Val, 200, 300);
+				marker.text(opp2Val, 400, 300);
+				marker.text(opp3Val, 600, 300);
+				opponent1.get(0).setFace(true);
+				opponent2.get(0).setFace(true);
+				opponent3.get(0).setFace(true);
+			} else if (numPlayers == 4) { 
 				marker.fill(255);
 				marker.textSize(32);
-				marker.text(random1, 100, 300);
-				marker.text(random2, 300, 300);
-				marker.text(random3, 500, 300);
-				marker.text(random4, 700, 300);
+				marker.text(opp1Val, 100, 300);
+				marker.text(opp2Val, 300, 300);
+				marker.text(opp3Val, 500, 300);
+				marker.text(opp4Val, 700, 300);
+				opponent1.get(0).setFace(true);
+				opponent2.get(0).setFace(true);
+				opponent3.get(0).setFace(true);
+				opponent4.get(0).setFace(true);
 			}
 		}
 	}
@@ -318,15 +371,7 @@ public class BlackJack implements PlayingBoard {
 		for (int i = 0; i < 800; i += 800 / numPlayers) {
 			marker.line(i, 0, i, 500);
 		}
-//		marker.circle(400, 400, 100);
-//		for (int i = 0; i < numPlayers; i++) {
-//			marker.stroke(218, 213, 82);
-//			marker.line((float) 400 + (float) (50 * Math.cos(i * 2 * Math.PI / numPlayers)),
-//					(float) 400 + (float) (50 * Math.sin(i * 2 * Math.PI / numPlayers)),
-//					(float) 400 + (float) (1000 * Math.cos(i * 2 * Math.PI / numPlayers)),
-//					(float) 400 + (float) (1000 * Math.sin(i * 2 * Math.PI / numPlayers)));
-//		}
-
+		
 		// exit button
 		marker.stroke(255);
 		marker.square(10, 10, 20);
@@ -347,6 +392,39 @@ public class BlackJack implements PlayingBoard {
 		marker.text("Your Hand: ", 10, 550);
 		for (int i = 0; i < playerCards.size(); i++) {
 			playerCards.get(i).draw(marker, (i * 40) + 300, 600);
+		}
+		
+		//draws the opponent hand
+		if (numPlayers == 2) {
+			for (int i = 0; i < opponent1.size(); i++) {
+				opponent1.get(i).draw(marker, 0 + 40 * i, 300);
+			}
+			for (int j = 0; j < opponent2.size(); j++) {
+				opponent2.get(j).draw(marker, 400 + 40 * j, 300);
+			}
+		} else if (numPlayers == 3) {
+			for (int i = 0; i < opponent1.size(); i++) {
+				opponent1.get(i).draw(marker, 0 + 40 * i, 300);
+			}
+			for (int j = 0; j < opponent2.size(); j++) {
+				opponent2.get(j).draw(marker, (800 / 3) + 40 * j, 300);
+			}
+			for (int k = 0; k < opponent3.size(); k++) {
+				opponent3.get(k).draw(marker, (1600 / 3) + 40 * k, 300);
+			}
+		} else if (numPlayers == 4) {
+			for (int i = 0; i < opponent1.size(); i++) {
+				opponent1.get(i).draw(marker, 0 + 40 * i, 300);
+			}
+			for (int j = 0; j < opponent2.size(); j++) {
+				opponent2.get(j).draw(marker, 200 + 40 * j, 300);
+			}
+			for (int k = 0; k < opponent3.size(); k++) {
+				opponent3.get(k).draw(marker, 400 + 40 * k, 300);
+			}
+			for (int l = 0; l < opponent4.size(); l++) {
+				opponent4.get(l).draw(marker, 600 + 40 * l, 300);
+			}
 		}
 		
 		//draws the reveal hand button
