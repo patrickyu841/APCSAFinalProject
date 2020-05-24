@@ -45,6 +45,15 @@ public class BlackJack implements PlayingBoard {
 		opponent1.get(0).setFace(false);
 		for (int i = 0; i < opponent1.size(); i++) {
 			opp1Val += opponent1.get(i).getNum();
+			if (opponent1.get(i).getNum() == 11) {
+				opp1Val -= 1;
+			}
+			if (opponent1.get(i).getNum() == 12) {
+				opp1Val -= 2;
+			} 
+			if (opponent1.get(i).getNum() == 13) {
+				opp1Val -= 3;
+			}
 		}
 		
 		opponent2 = new ArrayList<Card>();
@@ -61,6 +70,15 @@ public class BlackJack implements PlayingBoard {
 		opponent2.get(0).setFace(false);
 		for (int i = 0; i < opponent2.size(); i++) {
 			opp2Val += opponent2.get(i).getNum();
+			if (opponent2.get(i).getNum() == 11) {
+				opp2Val -= 1;
+			}
+			if (opponent2.get(i).getNum() == 12) {
+				opp2Val -= 2;
+			} 
+			if (opponent2.get(i).getNum() == 13) {
+				opp2Val -= 3;
+			}
 		}
 		
 		opponent3 = new ArrayList<Card>();
@@ -77,6 +95,15 @@ public class BlackJack implements PlayingBoard {
 		opponent3.get(0).setFace(false);
 		for (int i = 0; i < opponent3.size(); i++) {
 			opp3Val += opponent3.get(i).getNum();
+			if (opponent3.get(i).getNum() == 11) {
+				opp3Val -= 1;
+			}
+			if (opponent3.get(i).getNum() == 12) {
+				opp3Val -= 2;
+			} 
+			if (opponent3.get(i).getNum() == 13) {
+				opp3Val -= 3;
+			}
 		}
 		
 		opponent4 = new ArrayList<Card>();
@@ -93,6 +120,15 @@ public class BlackJack implements PlayingBoard {
 		opponent4.get(0).setFace(false);
 		for (int i = 0; i < opponent4.size(); i++) {
 			opp4Val += opponent4.get(i).getNum();
+			if (opponent4.get(i).getNum() == 11) {
+				opp4Val -= 1;
+			}
+			if (opponent4.get(i).getNum() == 12) {
+				opp4Val -= 2;
+			} 
+			if (opponent4.get(i).getNum() == 13) {
+				opp4Val -= 3;
+			}
 		}
 		
 	
@@ -322,6 +358,7 @@ public class BlackJack implements PlayingBoard {
 				marker.text(opp2Val, 600, 300);
 				opponent1.get(0).setFace(true);
 				opponent2.get(0).setFace(true);
+				marker.text(getSum(), 400, 530);
 			} else if (numPlayers == 3) { 
 				marker.fill(255);
 				marker.textSize(32);
@@ -331,6 +368,7 @@ public class BlackJack implements PlayingBoard {
 				opponent1.get(0).setFace(true);
 				opponent2.get(0).setFace(true);
 				opponent3.get(0).setFace(true);
+				marker.text(getSum(), 400, 530);
 			} else if (numPlayers == 4) { 
 				marker.fill(255);
 				marker.textSize(32);
@@ -342,6 +380,7 @@ public class BlackJack implements PlayingBoard {
 				opponent2.get(0).setFace(true);
 				opponent3.get(0).setFace(true);
 				opponent4.get(0).setFace(true);
+				marker.text(getSum(), 400, 530);
 			}
 		}
 	}
@@ -355,6 +394,15 @@ public class BlackJack implements PlayingBoard {
 		for (int i = 0; i < playerCards.size(); i++) {
 			if (playerCards.get(i).getFace()) {
 				result += playerCards.get(i).getNum();
+				if (playerCards.get(i).getNum() == 11) {
+					result -= 1;
+				}
+				if (playerCards.get(i).getNum() == 12) {
+					result -= 3;
+				} 
+				if (playerCards.get(i).getNum() == 13) {
+					result -= 3;
+				}
 			}
 		}
 		return result; 
