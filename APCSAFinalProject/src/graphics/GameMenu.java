@@ -78,11 +78,11 @@ public class GameMenu {
 		
 		marker.textSize(10);
 		marker.fill(0); 
-		marker.text("Each player gets two cards to start with. "
+		marker.text(" Each player gets two cards to start with. "
 			+ "\n One card is face up, the other is face down "
 			+ "\n They can choose to either pick up another card or remain. "
 			+ "\n Once all players are happy with their hand, everyone flips up their blind card "
-			+ "\n The player with the score closest to 21 without going over wins.", 410, 0);
+			+ "\n The player with the score closest to 21 without going over wins.", 410, 30);
 	}	
 	
 	/**
