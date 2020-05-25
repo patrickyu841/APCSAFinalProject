@@ -22,9 +22,14 @@ Must-have Features:
 * Programmed in Cards/Card Logic
    * The game should know card logic: for example, in poker, for each card combination, the computer will determine the hierarchy of combinations, and determine the winner
 * Needs at least 1 game with proper rule set built in
-   * This application should at least have one fully functioning game that players can play
+   * This application should have the logic for one game coded in
 * Interface with basic graphics resembling a card game (table divided based on player, cards)
-   * The game itself will have images of cards, tables, and chips for an immersive experience. 
+   * The game itself will have images of cards, tables, and chips for an immersive experience.
+* Game is functional
+   * Game is able to be played by user
+________________
+   * 
+
 Want-to-have Features:
 * Multiple card games 
    * Users would be able to choose between a wide variety of games, such as hearts, poker, blackjack, etc etc
@@ -55,14 +60,15 @@ Class List:
 * Main - Starts program, prompts user to select a game
 * GameMenu - Lists available game options to user
 * PlayerMenu - Allows users to control the number of players in the game (includes multiplayer)
-* Deck - Creates an object that represents a deck of cards
 * Card - Creates an object that represents a single card. The suit and rank are represented as fields. 
-* Player - Represents a user playing a game
 * PlayingBoard - Creates the digital table on which the card games are played
 * CardGame - Interface for all other card game types
-* (ex:) Poker - Class that extends CardGame and has the game rules built in. Players can pull up a menu that explains all the rules.
+   * (ex:) Poker - Class that extends CardGame and has the game rules built in. Players can pull up a menu that explains all the rules.
 
 
+
+
+________________
 
 
 Credits:
