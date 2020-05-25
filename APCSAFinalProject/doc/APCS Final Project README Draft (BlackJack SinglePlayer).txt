@@ -111,3 +111,7 @@ Hagen Zhang:
 * CardGame
 * CardStack
    * BlackJack
+   
+Outside Resources:
+*Processing library
+*Google images
